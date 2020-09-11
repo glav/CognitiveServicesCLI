@@ -53,7 +53,7 @@ namespace azCogSvc.CommandLine
                                                     cv && !ta ? SelectedService.ComputerVision : SelectedService.TextAnalytics);
 
 
-                Console.WriteLine($"Config value: {parsedConfig}");
+                Console.WriteLine($"Config values:\n {parsedConfig}");
 
             });
 
