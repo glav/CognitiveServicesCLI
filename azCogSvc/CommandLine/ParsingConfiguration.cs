@@ -24,26 +24,37 @@ namespace azCogSvc.CommandLine
         {
             var options = BuildOptions();
             options.ForEach(o => _rootCmd.AddOption(o));
+            var cmds = BuildCommands();
+            cmds.ForEach(c => _rootCmd.AddCommand(c));
 
             await _rootCmd.InvokeAsync(_args);
+        }
+
+        private List<Command> BuildCommands()
+        {
+            var cmds = new List<Command>();
+            // Add and retain the supported cognitive service options so we can build out the specific options for each one
+            var cvCmd = new Command("-cv", "Use the Computer Vision Cognitive Service");
+            cvCmd.AddAlias($"--{cvName}");
+            cmds.Add(cvCmd);
+            
+            var taCmd = new Command("-ta", "Use the Text Analytics Cognitive Service");
+            taCmd.AddAlias($"--{taName}");
+            cmds.Add(taCmd);
+
+            return cmds;
+
         }
 
         private List<Option> BuildOptions()
         {
             var options = new List<Option>();
-            
+
             // Add the required elements
             options.Add(new Option<string>(new string[] { "-l", "--location" }, "Location of the Azure Cognitive Resource eg. Australia SouthEast"));
             options[0].IsRequired = true;
             options.Add(new Option<string>(new string[] { "-k", "--api-key" }, "API Key generated for the Azure Cognitive resource"));
             options[1].IsRequired = true;
-
-            // Add and retain the supported cognitive service options so we can build out the specific options for each one
-            var cvOption = new Option<bool>(new string[] { "-cv", $"--{cvName}" }, "Use the Computer Vision Cognitive Service");
-            var taOption = new Option<bool>(new string[] { "-ta", $"--{taName}" }, "Use the Text Analytics Cognitive Service");
-            
-            options.Add(cvOption);
-            options.Add(taOption);
 
             _rootCmd.Handler = CommandHandler.Create<string,string,bool,bool>((l,k,cv,ta) =>
             {
