@@ -1,25 +1,30 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
+using azCogSvc.CommandLine;
 using Microsoft.Extensions.Configuration;
 
 namespace azcogsvc
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Console with App Settings!");
+            Console.WriteLine("Azure Cognitive Services CLI tool\n");
 
             var appConfig = LoadAppSettings();
 
-            if (appConfig == null)
-            {
-                Console.WriteLine("Missing or invalid appsettings.json...exiting");
-                return;
-            }
+            //if (appConfig == null)
+            //{
+            //    Console.WriteLine("Missing or invalid appsettings.json...exiting");
+            //    return;
+            //}
 
-            var configValue = appConfig["configValue"];
-			Console.WriteLine("Got config value: [{0}]",configValue);
+            var config = new ParsingConfiguration(args);
+            await config.SetupAsync();
+            
+            //var configValue = appConfig["configValue"];
+			//Console.WriteLine("Got config value: [{0}]",configValue);
 
         }
         static IConfigurationRoot LoadAppSettings()

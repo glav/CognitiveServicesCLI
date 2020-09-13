@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "azCogSvc": {
+      "commandName": "Project",
+      "commandLineArgs": "-l blah -k 123 -ta -f test.txt"
+    }
+  }
+}
