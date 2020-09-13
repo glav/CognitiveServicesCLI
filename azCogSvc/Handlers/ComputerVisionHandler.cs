@@ -15,10 +15,10 @@ namespace azCogSvc.Handlers
             _options = options;
         }
 
-        public async Task ExecuteAsync()
+        public async Task<bool> ExecuteAsync()
         {
             Console.WriteLine(_options);
-            await Task.FromResult(0);
+            return await Task.FromResult(true);
         }
     }
 }

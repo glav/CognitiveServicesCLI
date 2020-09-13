@@ -46,7 +46,8 @@ namespace azCogSvc.CommandLine
             cvCmd.Handler = CommandHandler.Create<ComputerVisionOptions>(async options =>
               {
                   var handler = new ComputerVisionHandler(options);
-                  await handler.ExecuteAsync();
+                  var result = await handler.ExecuteAsync();
+                  return result ? 0 : 1;
               });
             cmds.Add(cvCmd);
             
@@ -61,7 +62,8 @@ namespace azCogSvc.CommandLine
             taCmd.Handler = CommandHandler.Create<TextAnalyticsOptions>(async options =>
             {
                 var handler = new TextAnalyticHandler(options);
-                await handler.ExecuteAsync();
+                var result = await handler.ExecuteAsync();
+                return result ? 0 : 1;
             });
             cmds.Add(taCmd);
 
