@@ -1,4 +1,6 @@
 ﻿using azCogSvc.Handlers;
+using azCogSvc.Handlers.ComputerVision;
+using azCogSvc.Handlers.TextAnalytics;
 using System;
 using System.Collections.Generic;
 using System.CommandLine;
@@ -80,6 +82,8 @@ namespace azCogSvc.CommandLine
             options[0].IsRequired = true;
             options.Add(new Option<string>(new string[] { "-k", "--api-key" }, "API Key generated for the Azure Cognitive resource"));
             options[1].IsRequired = true;
+            options.Add(new Option<string>(new string[] { "-o", "--output" },() => { return "json"; }, "Output format. Can be 'json' or 'table'. Defaults to 'table'"));
+
             return options;
         }
     }
