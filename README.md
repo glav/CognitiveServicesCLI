@@ -23,3 +23,8 @@ Sentiment Analysis: Action submitted successfully:
 Keyphrase Analysis: Action submitted successfully:
  0: lovely day of relaxation,vegetables,herbs,rain
  ```
+
+You can also specify a file to read intead of supplying the actual text.
+ ```
+dotnet run -- --location WestUS -k {api-key} -ta -sa -f "c:\temp\testfile.txt" -ka
+``` 
