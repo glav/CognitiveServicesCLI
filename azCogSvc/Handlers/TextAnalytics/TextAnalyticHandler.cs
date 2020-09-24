@@ -7,12 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace azCogSvc.Handlers.TextAnalytics
 {
-    class TextAnalyticHandler : IServiceHandlerOutput
+    class TextAnalyticHandler : IServiceHandlerOutput<TextAnalyticAnalysisResults>
     {
         TextAnalyticsOptions _options;
         TextAnalyticErrorProcessor _errorProcessor;
@@ -54,14 +55,15 @@ namespace azCogSvc.Handlers.TextAnalytics
             return await Task.FromResult<bool>(true);
         }
 
-        public string ToJson()
+        public string ToJson(TextAnalyticAnalysisResults results)
         {
-            throw new NotImplementedException();
+            var container = new TextAnalyticJsonResultContainer(_options, results);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(container, Newtonsoft.Json.Formatting.Indented);
         }
 
-        public string ToTable()
+        public string ToTable(TextAnalyticAnalysisResults results)
         {
-            throw new NotImplementedException();
+            return "> Table Output WIP <";
         }
 
         private async Task ProcessResultsAsync(TextAnalyticAnalysisResults result)
@@ -71,40 +73,50 @@ namespace azCogSvc.Handlers.TextAnalytics
             {
                 return;
             }
-            if (_options.SentimentAnalysis && result.SentimentAnalysis.AnalysisResult.ActionSubmittedSuccessfully)
+
+            if (_options.ParseOutputFormat() == OutputFormat.Json)
             {
-                // To be refactored as output in JSON or Table
-                Console.WriteLine("Sentiment Analysis: Action submitted successfully:");
-                var allResultItems = result.SentimentAnalysis.GetResults();
-                foreach (var resultItem in allResultItems)
-                {
-                    Console.WriteLine(" {0}: {1} ({2})", resultItem.id, resultItem.score, result.SentimentAnalysis.ScoringEngine.EvaluateScore(resultItem.score).Name);
-                }
+                Console.Out.WriteLine(ToJson(result));
+            } else if (_options.ParseOutputFormat() == OutputFormat.Table)
+            {
+                Console.Out.WriteLine(ToTable(result));
             }
 
-            if (_options.KeyPhraseAnalysis && result.KeyPhraseAnalysis.AnalysisResult.ActionSubmittedSuccessfully)
-            {
-                // To be refactored as output in JSON or Table
-                Console.WriteLine("Keyphrase Analysis: Action submitted successfully:");
-                var allResultItems = result.KeyPhraseAnalysis.AnalysisResults.Select(r => r.ResponseData);
-                foreach (var resultItem in allResultItems)
-                {
-                    var keyphraseList = resultItem.documents.SelectMany(k => k.keyPhrases);
-                    Console.WriteLine(" {0}: {1}", resultItem.id, string.Join(",", keyphraseList));
-                }
-            }
+            return;
+            //if (_options.SentimentAnalysis && result.SentimentAnalysis.AnalysisResult.ActionSubmittedSuccessfully)
+            //{
+            //    // To be refactored as output in JSON or Table
+            //    Console.WriteLine("Sentiment Analysis: Action submitted successfully:");
+            //    var allResultItems = result.SentimentAnalysis.GetResults();
+            //    foreach (var resultItem in allResultItems)
+            //    {
+            //        Console.WriteLine(" {0}: {1} ({2})", resultItem.id, resultItem.score, result.SentimentAnalysis.ScoringEngine.EvaluateScore(resultItem.score).Name);
+            //    }
+            //}
 
-            if (_options.LanguageDetection && result.LanguageAnalysis.AnalysisResult.ActionSubmittedSuccessfully)
-            {
-                // To be refactored as output in JSON or Table
-                Console.WriteLine("Language Analysis: Action submitted successfully:");
-                var allResultItems = result.LanguageAnalysis.AnalysisResults.Select(r => r.ResponseData);
-                foreach (var resultItem in allResultItems)
-                {
-                    var languageList = resultItem.documents.SelectMany(k => k.detectedLanguages);
-                    Console.WriteLine(" {0}: {1}", resultItem.id, string.Join(",", languageList));
-                }
-            }
+            //if (_options.KeyPhraseAnalysis && result.KeyPhraseAnalysis.AnalysisResult.ActionSubmittedSuccessfully)
+            //{
+            //    // To be refactored as output in JSON or Table
+            //    Console.WriteLine("Keyphrase Analysis: Action submitted successfully:");
+            //    var allResultItems = result.KeyPhraseAnalysis.AnalysisResults.Select(r => r.ResponseData);
+            //    foreach (var resultItem in allResultItems)
+            //    {
+            //        var keyphraseList = resultItem.documents.SelectMany(k => k.keyPhrases);
+            //        Console.WriteLine(" {0}: {1}", resultItem.id, string.Join(",", keyphraseList));
+            //    }
+            //}
+
+            //if (_options.LanguageDetection && result.LanguageAnalysis.AnalysisResult.ActionSubmittedSuccessfully)
+            //{
+            //    // To be refactored as output in JSON or Table
+            //    Console.WriteLine("Language Analysis: Action submitted successfully:");
+            //    var allResultItems = result.LanguageAnalysis.AnalysisResults.Select(r => r.ResponseData);
+            //    foreach (var resultItem in allResultItems)
+            //    {
+            //        var languageList = resultItem.documents.SelectMany(k => k.detectedLanguages);
+            //        Console.WriteLine(" {0}: {1}", resultItem.id, string.Join(",", languageList));
+            //    }
+            //}
 
         }
 

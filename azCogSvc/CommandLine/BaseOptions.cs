@@ -23,9 +23,29 @@ namespace azCogSvc.CommandLine
             return string.IsNullOrWhiteSpace(ApiKey) ? "-NotSupplied-" : "**********";
         }
 
+        public OutputFormat ParseOutputFormat()
+        {
+            var normalised = string.IsNullOrWhiteSpace(Output) ? string.Empty : Output.Trim().ToLowerInvariant();
+            switch (normalised)
+            {
+                case "json":
+                    return OutputFormat.Json;
+                case "table":
+                    return OutputFormat.Table;
+            }
+            return OutputFormat.None;
+        }
+
         public override string ToString()
         {
             return $"Location: {Location}, Key: {IsApiKeySupplied()}, Output format: {Output}";
         }
+    }
+
+    public enum OutputFormat
+    {
+        None,
+        Json,
+        Table
     }
 }

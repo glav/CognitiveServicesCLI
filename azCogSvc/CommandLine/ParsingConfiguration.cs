@@ -1,16 +1,10 @@
-﻿using azCogSvc.Handlers;
-using azCogSvc.Handlers.ComputerVision;
+﻿using azCogSvc.Handlers.ComputerVision;
 using azCogSvc.Handlers.TextAnalytics;
-using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
-using System.CommandLine.IO;
 using System.CommandLine.Parsing;
 using System.IO;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace azCogSvc.CommandLine
@@ -18,7 +12,7 @@ namespace azCogSvc.CommandLine
     public class ParsingConfiguration
     {
         private string[] _args;
-        private RootCommand _rootCmd = new RootCommand("A Command line interface (CLI) way of interacting with Azure Cognitive Services");
+        private RootCommand _rootCmd = new RootCommand("Azure Cognitive Services Command Line interface (CLI)");
         private const string cvName = "computer-vision";
         private const string taName = "text-analytics";
 

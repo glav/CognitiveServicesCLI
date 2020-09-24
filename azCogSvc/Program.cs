@@ -10,7 +10,7 @@ namespace azcogsvc
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Azure Cognitive Services CLI tool\n");
+            //Console.WriteLine("Azure Cognitive Services CLI tool\n");
 
             var appConfig = LoadAppSettings();
 
