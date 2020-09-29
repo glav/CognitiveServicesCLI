@@ -83,41 +83,6 @@ namespace azCogSvc.Handlers.TextAnalytics
             }
 
             return;
-            //if (_options.SentimentAnalysis && result.SentimentAnalysis.AnalysisResult.ActionSubmittedSuccessfully)
-            //{
-            //    // To be refactored as output in JSON or Table
-            //    Console.WriteLine("Sentiment Analysis: Action submitted successfully:");
-            //    var allResultItems = result.SentimentAnalysis.GetResults();
-            //    foreach (var resultItem in allResultItems)
-            //    {
-            //        Console.WriteLine(" {0}: {1} ({2})", resultItem.id, resultItem.score, result.SentimentAnalysis.ScoringEngine.EvaluateScore(resultItem.score).Name);
-            //    }
-            //}
-
-            //if (_options.KeyPhraseAnalysis && result.KeyPhraseAnalysis.AnalysisResult.ActionSubmittedSuccessfully)
-            //{
-            //    // To be refactored as output in JSON or Table
-            //    Console.WriteLine("Keyphrase Analysis: Action submitted successfully:");
-            //    var allResultItems = result.KeyPhraseAnalysis.AnalysisResults.Select(r => r.ResponseData);
-            //    foreach (var resultItem in allResultItems)
-            //    {
-            //        var keyphraseList = resultItem.documents.SelectMany(k => k.keyPhrases);
-            //        Console.WriteLine(" {0}: {1}", resultItem.id, string.Join(",", keyphraseList));
-            //    }
-            //}
-
-            //if (_options.LanguageDetection && result.LanguageAnalysis.AnalysisResult.ActionSubmittedSuccessfully)
-            //{
-            //    // To be refactored as output in JSON or Table
-            //    Console.WriteLine("Language Analysis: Action submitted successfully:");
-            //    var allResultItems = result.LanguageAnalysis.AnalysisResults.Select(r => r.ResponseData);
-            //    foreach (var resultItem in allResultItems)
-            //    {
-            //        var languageList = resultItem.documents.SelectMany(k => k.detectedLanguages);
-            //        Console.WriteLine(" {0}: {1}", resultItem.id, string.Join(",", languageList));
-            //    }
-            //}
-
         }
 
 
