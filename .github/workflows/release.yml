@@ -1,4 +1,4 @@
-name: Issues workflow
+name: Release workflow
 
 on:
   workflow_dispatch:
