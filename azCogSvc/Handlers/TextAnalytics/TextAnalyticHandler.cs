@@ -33,6 +33,12 @@ namespace azCogSvc.Handlers.TextAnalytics
             var location = (LocationKeyIdentifier)System.Enum.Parse(typeof(LocationKeyIdentifier), _options.Location, true);
             var txtToAnalyse = _options.Filename != null ? File.ReadAllText(_options.Filename.FullName) : _options.TextToAnalyse;
 
+            if (string.IsNullOrWhiteSpace(txtToAnalyse))
+            {
+                Console.Error.WriteLine("ERROR! No text supplied for analysis.");
+                return await Task.FromResult<bool>(false);
+            }
+
 
             var analysis = TextAnalyticConfigurationSettings.CreateUsingConfigurationKeys(_options.ApiKey, location)
                     .AddConsoleDiagnosticLogging()
@@ -63,7 +69,8 @@ namespace azCogSvc.Handlers.TextAnalytics
 
         public string ToTable(TextAnalyticAnalysisResults results)
         {
-            return "> Table Output WIP <";
+            var container = new TextAnalyticTableResultContainer(_options, results);
+            return container.ToString();
         }
 
         private async Task ProcessResultsAsync(TextAnalyticAnalysisResults result)
