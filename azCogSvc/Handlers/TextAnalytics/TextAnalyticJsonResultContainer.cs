@@ -23,21 +23,21 @@ namespace azCogSvc.Handlers.TextAnalytics
         {
             if (_options.SentimentAnalysis)
             {
-                SentimentResults = _results.SentimentAnalysis.AnalysisResults.Select(r => r.ResponseData);
+                sentimentResults = _results.SentimentAnalysis.AnalysisResults.Select(r => r.ResponseData);
             }
             if (_options.KeyPhraseAnalysis)
             {
-                KeyphraseResults = _results.KeyPhraseAnalysis.AnalysisResults.Select(r => r.ResponseData);
+                keyphraseResults = _results.KeyPhraseAnalysis.AnalysisResults.Select(r => r.ResponseData);
             }
             if (_options.LanguageDetection)
             {
-                LanguageResults = _results.LanguageAnalysis.AnalysisResults.Select(r => r.ResponseData);
+                languageResults = _results.LanguageAnalysis.AnalysisResults.Select(r => r.ResponseData);
             }
 
         }
 
-        public IEnumerable<SentimentResultResponseRoot> SentimentResults { get; internal set; }
-        public IEnumerable<KeyPhraseResultResponseRoot> KeyphraseResults { get; internal set; }
-        public IEnumerable<LanguagesResultResponseRoot> LanguageResults { get; internal set; }
+        public IEnumerable<SentimentResultResponseRoot> sentimentResults { get; internal set; }
+        public IEnumerable<KeyPhraseResultResponseRoot> keyphraseResults { get; internal set; }
+        public IEnumerable<LanguagesResultResponseRoot> languageResults { get; internal set; }
     }
 }

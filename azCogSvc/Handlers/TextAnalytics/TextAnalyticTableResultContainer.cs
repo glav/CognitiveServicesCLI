@@ -1,4 +1,5 @@
 ﻿using azCogSvc.CommandLine;
+using Glav.CognitiveServices.FluentApi.Core;
 using Glav.CognitiveServices.FluentApi.TextAnalytic;
 using Glav.CognitiveServices.FluentApi.TextAnalytic.Domain.ApiResponses;
 using System.Collections.Generic;
@@ -47,21 +48,30 @@ namespace azCogSvc.Handlers.TextAnalytics
 
             if (_options.SentimentAnalysis)
             {
-                output.AppendLine(">> Sentiment Analysis <<");
+                output.AppendLine("\n>> Sentiment Analysis <<");
                 _results.SentimentAnalysis.AnalysisResults.ForEach(r =>
                 {
-                    output.AppendFormat("DocumentSetId\n{0}\n", r.ResponseData.id);
-                    output.AppendLine("\tId\tScore\t\t\tSentiment");
+                    output.AppendFormat("DocumentSetId\n-------------\n{0}\n", r.ResponseData.id);
+                    output.AppendLine("\tId\tScore\t\t\tSentiment\n\t--\t-----\t\t\t---------\n");
                     r.ResponseData.documents.ToList().ForEach(d =>
                     {
-                        output.AppendFormat("\t{0}\t{1:0.0000000000000000}\t{2}", d.id, d.score, "-not done-\n");
+                        output.AppendFormat("\t{0}\t{1:0.0000000000000000}\t{2}\n", d.id, d.score, _results.SentimentAnalysis.Score(d.score).Name);
                     });
                 });
 
             }
             if (_options.KeyPhraseAnalysis)
             {
-                KeyphraseResults = _results.KeyPhraseAnalysis.AnalysisResults.Select(r => r.ResponseData);
+                output.AppendLine("\n>> Keyphrase Analysis <<");
+                _results.KeyPhraseAnalysis.AnalysisResults.ForEach(k =>
+                {
+                    output.AppendFormat("DocumentSetId\n-------------\n{0}\n", k.ResponseData.id);
+                    output.AppendLine("\tKeyphrases\n\t----------\n");
+                    k.ResponseData.documents.ToList().ForEach(d =>
+                    {
+                        output.AppendFormat("\t{0}\n", string.Join(",",d.keyPhrases));
+                    });
+                });
             }
             if (_options.LanguageDetection)
             {
