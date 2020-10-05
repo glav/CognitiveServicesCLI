@@ -75,7 +75,22 @@ namespace azCogSvc.Handlers.TextAnalytics
             }
             if (_options.LanguageDetection)
             {
-                LanguageResults = _results.LanguageAnalysis.AnalysisResults.Select(r => r.ResponseData);
+                output.AppendLine("\n>> Language Detection <<");
+                _results.LanguageAnalysis.AnalysisResults.ForEach(l =>
+                {
+                    output.AppendFormat("DocumentSetId\n-------------\n{0}\n", l.ResponseData.id);
+                    output.AppendLine("\tId\tName\tIso6391Name\tScore\n\t--\t----\t-----------\t-----\n");
+                    l.ResponseData.documents.ToList().ForEach(d =>
+                    {
+                        int cnt = 0;
+                        output.AppendFormat("\t{0}",d.id);
+                        d.detectedLanguages.ToList().ForEach(dl =>
+                        {
+                            output.AppendFormat("{0}{1}\t{2}\t\t{3:0.0000000000000000}", cnt > 0 ? "\t\t" : "\t", dl.name, dl.iso6391name, dl.score);
+                            cnt++;
+                        });
+                    });
+                });
             }
 
             return output.ToString();
