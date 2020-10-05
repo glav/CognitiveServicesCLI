@@ -5,8 +5,7 @@ on:
 
 jobs:
   publish:
-
-runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     env:
       appName: 'azCogSvc'
 
