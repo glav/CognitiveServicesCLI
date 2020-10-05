@@ -2,13 +2,6 @@ name: Release workflow
 
 on:
   workflow_dispatch:
-    inputs:
-      majorVersion:
-        require: true
-        default: '0'
-      minorVersion:
-        required: true
-        default: '1'
 
 
 jobs:
@@ -16,30 +9,31 @@ jobs:
     if: github.ref == 'refs/heads/trunk'
     runs-on: ubuntu-latest
     env:
-      releaseVersion: ${{ github.event.inputs.majorVersion }}.${{ github.event.inputs.minorVersion }}.${{ github.run_number }}
       appName: 'azCogSvc'
 
     steps:
       - name: Version
         run: echo Releasing version $releaseVersion
       - uses: actions/checkout@v2
+      - name: Set environment version variable
+        run: echo "RELEASEVERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.402
       # Publish osx-x64
       - name: Publish osx-x64
-        run: dotnet publish -r osx-x64 -c Release /p:PublishTrimmed=true /p:PublishSingleFile=true /p:Version=${{env.releaseVersion}}
+        run: dotnet publish -r osx-x64 -c Release /p:PublishTrimmed=true /p:PublishSingleFile=true /p:Version=${{env.RELEASEVERSION}}
       - name: Zip osx-x64
         run: (cd ${{env.appName}}/bin/Release/netcoreapp3.1/osx-x64/publish ; zip -r ${{env.appName}}_osx-x64.zip *)
       # Publish win-x64
       - name: Publish win-x64
-        run: dotnet publish -r win-x64 -c Release /p:PublishTrimmed=true /p:PublishSingleFile=true  /p:Version=${{env.releaseVersion}}
+        run: dotnet publish -r win-x64 -c Release /p:PublishTrimmed=true /p:PublishSingleFile=true  /p:Version=${{env.RELEASEVERSION}}
       - name: Zip win-x64
         run: (cd ${{env.appName}}/bin/Release/netcoreapp3.1/win-x64/publish ; zip -r ${{env.appName}}_win-x64 *)
       # Publish linux-x64
       - name: Publish linux-x64
-        run: dotnet publish -r linux-x64 -c Release /p:PublishTrimmed=true /p:PublishSingleFile=true /p:Version=${{env.releaseVersion}}
+        run: dotnet publish -r linux-x64 -c Release /p:PublishTrimmed=true /p:PublishSingleFile=true /p:Version=${{env.RELEASEVERSION}}
       - name: Zip linux-x64
         run: (cd ${{env.appName}}/bin/Release/netcoreapp3.1/linux-x64/publish ; zip -r ${{env.appName}}_linux-x64 *)
       # Create release
@@ -49,8 +43,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.releaseVersion }}
-          release_name: ${{ env.releaseVersion }}
+          tag_name: ${{ env.RELEASEVERSION }}
+          release_name: ${{ env.RELEASEVERSION }}
           draft: false
           prerelease: false
       # Upload osx-x64
