@@ -14,7 +14,7 @@ jobs:
         run: echo Releasing version $releaseVersion
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 2
+          fetch-depth: 0
       - name: Set environment version variable
         run: echo "RELEASEVERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
