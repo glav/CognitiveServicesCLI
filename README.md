@@ -1,6 +1,8 @@
 # CognitiveServicesCLI
 A Command line interface way of interacting with Azure Cognitive Services
 
+![Examples](azCogSvc.gif)
+
 ## Usage
 ```
 dotnet run -- --location WestUS -k {api-key} -ta -sa -txt "Sunday has been a lovely day of relaxation. I managed to plant some vegetables and herbs before the rain" -ka
