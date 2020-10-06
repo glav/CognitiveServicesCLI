@@ -19,6 +19,9 @@ jobs:
           fetch-depth: 0
       - name: Set environment version variable
         run: echo "RELEASEVERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+      - name: ShowOutput of En Var RELEASEVERSION
+        run: echo New Version: $RELEASEVERSION
+
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
