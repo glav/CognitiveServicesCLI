@@ -3,11 +3,11 @@ A Command line interface way of interacting with Azure Cognitive Services.
 Note that it is very early days for this project which currently only supports TextAnalytics. Available in Windows, Linux and MacOs builds.
 
 
-##Examples
-#####Simple use of TextAnalytics Sentiment analysis to output results in JSON format.
+## Examples
+##### Simple use of TextAnalytics Sentiment analysis to output results in JSON format.
 ![Examples-simple](./Documentation/azCogSvc-SimpleJson.gif)
 
-#####Use of TextAnalytics Sentiment analysis and Keyphrase analysis to output results in TABLE format.
+##### Use of TextAnalytics Sentiment analysis and Keyphrase analysis to output results in TABLE format.
 ![Examples-simple](./Documentation/azCogSvc-Table.gif)
 
 ## Usage
