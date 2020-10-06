@@ -1,0 +1,23 @@
+name: Test Workflow only
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      appName: 'azCogSvc'
+
+    steps:
+      - name: Version
+        run: echo Releasing version $releaseVersion
+      - uses: actions/checkout@v2
+      - name: Set environment version variable
+        run: echo "RELEASEVERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
+      - name: ShowOutput of En Var RELEASEVERSION
+        run: echo $RELEASEVERSION
+
+      - name: Show raw command output
+        run: git describe --tags --abbrev=0
