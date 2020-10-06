@@ -1,7 +1,7 @@
 # CognitiveServicesCLI
 A Command line interface way of interacting with Azure Cognitive Services
 
-![Examples](azCogSvc.gif)
+![Examples](./Documentation/azCogSvc-SimpleJson.gif)
 
 ## Usage
 ```
